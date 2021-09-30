@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Projec2 - Classes</title>
+        <link rel="stylesheet" href="main.css">
+    </head>
+    <script language="JavaScript" type="text/JavaScript">
+        //class Device
+        class Device{
+            //constructor
+            constructor(deployed, repCost, supName, serial){
+                this._deployed = deployed;
+                this._repCost = repCost;
+                this._supName = supName;
+                this._serial = serial;
+            }
+            //getters and setters
+            get deployed(){
+                return this._deployed;
+            }
+            set deployed(deployed){
+                this._deployed = deployed;
+            }
+            get repCost(){
+                return this._repCost;
+            }
+            set repCost(repCost){
+                this._repCost = repCost;
+            }
+            get supName(){
+                return this._supName;
+            }
+            set supName(supName){
+                this._supName = supName;
+            }
+            get serial(){
+                return this._serial;
+            }
+            set serial(serial){
+                this._serial = serial;
+            }
+
+        }//end Device class
+        
+        // Class VideoDevice
+        class VideoDevice extends Device{
+            //constructor
+            constructor(deployed, repCost, supName, serial, resolution, type){
+                super(deployed, repCost, supName, serial)
+                this._resolution = resolution;
+                this._type = type;
+            }
+            //getters and setters
+            get resolution(){
+                return this._resolution;
+            }
+            set resolution(resolution){
+                this._resolution = resolution;
+            }
+            get type(){
+                return this._type;
+            }
+            set type(type){
+                this._type = type;
+            }
+
+        }
+        
+        //Class DiskDevice
+        class DiskDevice extends Device{
+            //constructor
+            constructor(deployed, repCost, supName, serial, size, tRate){
+                super(deployed, repCost, supName, serial)
+                this._size = size;
+                this._tRate = tRate;
+            }
+            //getters and setters
+            get size(){
+                return this._size;
+            }
+            set size(size){
+                this._size = size;
+            }
+            get tRate(){
+                return this._tRate;
+            }
+            set tRate(tRate){
+                this._tRate = tRate;
+            }
+        }
+        
+        //class HardDisk
+        class HardDisk extends DiskDevice{
+            //constructor
+            constructor(deployed, repCost, supName, serial, size, tRate, pSize, numPlat){
+                super(deployed, repCost, supName, serial, size, tRate)
+                this._pSize = pSize;
+                this._numPlat = numPlat;
+            }
+            //getters and setters
+            get pSize(){
+                return this._pSize;
+            }
+            set pSize(pSize){
+                this._pSize = pSize;
+            }
+            get numPlat(){
+                return this._numPlat;
+            }
+            set numPlat(numPlat){
+                this._numPlat = numPlat;
+            }
+        }
+        
+        //class SSD
+        class SSD extends DiskDevice{
+            //constructor
+            constructor(deployed, repCost, supName, serial, size, tRate, type, wLevel){
+                super(deployed, repCost, supName, serial, size, tRate)
+                this._type = type;
+                this._wLevel = wLevel;
+            }
+            //getters and setters
+            get type(){
+                return this._type;
+            }
+            set type(type){
+                this._type = type;
+            }
+            get wLevel(){
+                return this._wLevel;
+            }
+            set wLevel(wLevel){
+                this._wLevel = wLevel;
+            }
+        }
+
+        /********** VIDEO DEVICE FUNCTIONS **********/
+        // variables declaration to all Video devices functions
+        var vIndex = 0;
+        var video = [];
+        var vNavIndex = 0;
+
+        //funtion to create a new video device
+        function newVideoDevice() {
+            let vdep = gel("Vdep").checked;
+            let vcost = gel("VrepCost").value;
+            let vname = gel("VsupName").value;
+            let vserial = gel("Vserial").value;
+            let vresol = gel("Vresol").selectedIndex;
+            let vtype = gel("Vtype").selectedIndex;
+            video[vIndex] = new VideoDevice(vdep, vcost, vname, vserial, vresol, vtype);
+            console.log(video);
+            gel("Vdep").checked = false;
+            gel("VrepCost").value = "";
+            gel("VsupName").value = "";
+            gel("Vserial").value = "";
+            gel("Vresol").selectedIndex = "0";
+            gel("Vtype").selectedIndex = "0";
+            alert("Values stored!");
+            vIndex++;
+            vNavIndex = vIndex;
+            console.log(vIndex);
+        }
+        // Update Video device object
+        function updateVideoDevice(){
+            video[vNavIndex].deployed = gel("Vdep").checked;
+            video[vNavIndex].repCost = gel("VrepCost").value;
+            video[vNavIndex].supName = gel("VsupName").value;
+            video[vNavIndex].serial = gel("Vserial").value;
+            video[vNavIndex].resolution = gel("Vresol").selectedIndex;
+            video[vNavIndex].type = gel("Vtype").selectedIndex;
+            alert("Values updated!");
+        }
+        // Go to previous Video record
+        function goPreviousVideo(){
+            if(vIndex > 0 && vNavIndex > 0){
+                vNavIndex--;
+                gel("Vdep").checked = video[vNavIndex].deployed;
+                gel("VrepCost").value = video[vNavIndex].repCost;
+                gel("VsupName").value = video[vNavIndex].supName;
+                gel("Vserial").value = video[vNavIndex].serial;
+                gel("Vresol").selectedIndex = video[vNavIndex].resolution;
+                gel("Vtype").selectedIndex = video[vNavIndex].type;
+                console.log(vNavIndex);
+            }
+        }
+        // Go to next Video record
+        function goNextVideo(){
+            if(vNavIndex < video.length -1){
+                vNavIndex++;
+                gel("Vdep").checked = video[vNavIndex].deployed;
+                gel("VrepCost").value = video[vNavIndex].repCost;
+                gel("VsupName").value = video[vNavIndex].supName;
+                gel("Vserial").value = video[vNavIndex].serial;
+                gel("Vresol").selectedIndex = video[vNavIndex].resolution;
+                gel("Vtype").selectedIndex = video[vNavIndex].type;
+                console.log(vNavIndex);
+            }
+        }
+
+        /********** HARD DISK DEVICE FUNCTIONS **********/
+        // variables declaration to all Hard Disk functions
+        var hdIndex = 0;
+        var hd = [];
+        var hdNavIndex = 0;
+
+        //funtion to create a new hard disk device
+        function newHDDevice() {
+            let dep = gel("HDdep").checked;
+            let cost = gel("HDrepCost").value;
+            let name = gel("HDsupName").value;
+            let serial = gel("HDserial").value;
+            let diskSize = gel("HDDisksize").selectedIndex;
+            let diskRate = gel("HDDiskRate").selectedIndex;
+            let platSize = gel("HDPsize").selectedIndex;
+            let numPlat = gel("HDNumPlatters").selectedIndex;
+            hd[hdIndex] = new HardDisk(dep, cost, name, serial, diskSize, diskRate, platSize, numPlat);
+            console.log(hd);
+            gel("HDdep").checked = false;
+            gel("HDrepCost").value = "";
+            gel("HDsupName").value = "";
+            gel("HDserial").value = "";
+            gel("HDDisksize").selectedIndex = "0";
+            gel("HDDiskRate").selectedIndex = "0";
+            gel("HDPsize").selectedIndex = "0";
+            gel("HDNumPlatters").selectedIndex = "0";
+            alert("Values stored!");
+            hdIndex++;
+            hdNavIndex = hdIndex;
+            console.log(hdIndex);
+        }
+        // Update HD device object
+        function updateHDDevice(){
+            hd[hdNavIndex].deployed = gel("HDdep").checked;
+            hd[hdNavIndex].repCost = gel("HDrepCost").value;
+            hd[hdNavIndex].supName = gel("HDsupName").value;
+            hd[hdNavIndex].serial = gel("HDserial").value;
+            hd[hdNavIndex].size = gel("HDDisksize").selectedIndex;
+            hd[hdNavIndex].tRate = gel("HDDiskRate").selectedIndex;
+            hd[hdNavIndex].pSize = gel("HDPsize").selectedIndex;
+            hd[hdNavIndex].numPlat = gel("HDNumPlatters").selectedIndex;
+            alert("Values updated!");
+        }
+        // Go to previous HD record
+        function goPreviousHD(){
+            if(hdIndex > 0 && hdNavIndex > 0){
+                hdNavIndex--;
+                gel("HDdep").checked = hd[hdNavIndex].deployed;
+                gel("HDrepCost").value = hd[hdNavIndex].repCost;
+                gel("HDsupName").value = hd[hdNavIndex].supName;
+                gel("HDserial").value = hd[hdNavIndex].serial;
+                gel("HDDisksize").selectedIndex = hd[hdNavIndex].size;
+                gel("HDDiskRate").selectedIndex = hd[hdNavIndex].tRate;
+                gel("HDPsize").selectedIndex = hd[hdNavIndex].pSize;
+                gel("HDNumPlatters").selectedIndex = hd[hdNavIndex].numPlat;
+                console.log(hdNavIndex);
+            }
+        }
+        // Go to next HD record
+        function goNextHD(){
+            if(hdNavIndex < hd.length -1){
+                hdNavIndex++;
+                gel("HDdep").checked = hd[hdNavIndex].deployed;
+                gel("HDrepCost").value = hd[hdNavIndex].repCost;
+                gel("HDsupName").value = hd[hdNavIndex].supName;
+                gel("HDserial").value = hd[hdNavIndex].serial;
+                gel("HDDisksize").selectedIndex = hd[hdNavIndex].size;
+                gel("HDDiskRate").selectedIndex = hd[hdNavIndex].tRate;
+                gel("HDPsize").selectedIndex = hd[hdNavIndex].pSize;
+                gel("HDNumPlatters").selectedIndex = hd[hdNavIndex].numPlat;
+                console.log(hdNavIndex);
+            }
+        }
+
+        /****** SSD functions ******/
+        // variables declaration to all SSD functions
+        var ssdIndex = 0;
+        var ssd = [];
+        var ssdNavIndex = 0;
+
+        //funtion to create a new hard disk device
+        function newSSDDevice() {
+            let dep = gel("SSDdep").checked;
+            let cost = gel("SSDrepCost").value;
+            let name = gel("SSDsupName").value;
+            let serial = gel("SSDserial").value;
+            let diskSize = gel("SSDDisksize").selectedIndex;
+            let diskRate = gel("SSDDiskRate").selectedIndex;
+            let type = gel("SSDtype").selectedIndex;
+            let wlevel = gel("SSDWLev").checked;
+            ssd[ssdIndex] = new SSD(dep, cost, name, serial, diskSize, diskRate, type, wlevel);
+            console.log(ssd);
+            gel("SSDdep").checked = false;
+            gel("SSDrepCost").value = "";
+            gel("SSDsupName").value = "";
+            gel("SSDserial").value = "";
+            gel("SSDDisksize").selectedIndex = "0";
+            gel("SSDDiskRate").selectedIndex = "0";
+            gel("SSDtype").selectedIndex = "0";
+            gel("SSDWLev").checked = false;
+            alert("Values stored!");
+            ssdIndex++;
+            ssdNavIndex = ssdIndex;
+            console.log(ssdIndex);
+        }
+        // Update SSD device object
+        function updateSSDDevice(){
+            ssd[ssdNavIndex].deployed = gel("SSDdep").checked;
+            ssd[ssdNavIndex].repCost = gel("SSDrepCost").value;
+            ssd[ssdNavIndex].supName = gel("SSDsupName").value;
+            ssd[ssdNavIndex].serial = gel("SSDserial").value;
+            ssd[ssdNavIndex].size = gel("SSDDisksize").selectedIndex;
+            ssd[ssdNavIndex].tRate = gel("SSDDiskRate").selectedIndex;
+            ssd[ssdNavIndex].type = gel("SSDtype").selectedIndex;
+            ssd[ssdNavIndex].wLevel = gel("SSDWLev").checked;
+            alert("Values updated!");
+        }
+        // Go to previous SSD record
+        function goPreviousSSD(){
+            if(ssdIndex > 0 && ssdNavIndex > 0){
+                ssdNavIndex--;
+                gel("SSDdep").checked = ssd[ssdNavIndex].deployed;
+                gel("SSDrepCost").value = ssd[ssdNavIndex].repCost;
+                gel("SSDsupName").value = ssd[ssdNavIndex].supName;
+                gel("SSDserial").value = ssd[ssdNavIndex].serial;
+                gel("SSDDisksize").selectedIndex = ssd[ssdNavIndex].size;
+                gel("SSDDiskRate").selectedIndex = ssd[ssdNavIndex].tRate;
+                gel("SSDtype").selectedIndex = ssd[ssdNavIndex].type;
+                gel("SSDWLev").checked = ssd[ssdNavIndex].wLevel;
+                console.log(ssdNavIndex);
+            }
+        }
+        // Go to next SSD record
+        function goNextSSD(){
+            if(ssdNavIndex < ssd.length -1){
+                ssdNavIndex++;
+                gel("SSDdep").checked = ssd[ssdNavIndex].deployed;
+                gel("SSDrepCost").value = ssd[ssdNavIndex].repCost;
+                gel("SSDsupName").value = ssd[ssdNavIndex].supName;
+                gel("SSDserial").value = ssd[ssdNavIndex].serial;
+                gel("SSDDisksize").selectedIndex = ssd[ssdNavIndex].size;
+                gel("SSDDiskRate").selectedIndex = ssd[ssdNavIndex].tRate;
+                gel("SSDtype").selectedIndex = ssd[ssdNavIndex].type;
+                gel("SSDWLev").checked = ssd[ssdNavIndex].wLevel;
+                console.log(ssdNavIndex);
+            }
+        }
+
+        //helper function to get HTML element
+        function gel(id) {
+            return document.getElementById(id);
+        }
+    </script>
+    <body>
+        <!--Video device UI -->
+        <div id="VideoDevice">
+            <h1>Video Device</h1>
+            <form action="">
+                <label><input type="checkbox" id="Vdep">Deployed?</label>
+                <br/><br/>
+                <label>Replacement Cost $</label><input type="text" name="repCost" id="VrepCost"/>
+                <br/><br/>
+                <label>Supplier Name</label><input type="text" name="supName" id="VsupName"/>
+                <br/><br/>
+                <label>Serial Number</label><input type="text" name="serial" id="Vserial"/>
+                <br/><br/>
+                <label for="Resolution">Resolution</label>
+                <select class = "combobox" name="resolution" id="Vresol">
+                    <option value="3840 x 2164">3840 x 2164</option>
+                    <option value="1920 x 1080">1920 x 1080</option>
+                    <option value="1680 x 1050">1680 x 1050</option>
+                    <option value="800 x 600">800 x 600</option>
+                </select>
+                <br/>
+                <label for="Type">Type</label>
+                <select class = "combobox" name="type" id="Vtype">
+                    <option value="LCD">LCD</option>
+                    <option value="Plasma">Plasma</option>
+                    <option value="LED">LED</option>
+                </select>
+            </form>
+            <nav>
+                <br/>
+                <input class = "NavButtons" type="button" id="VprevBtn" value="Previous" onclick="goPreviousVideo();" />
+                <input class = "NavButtons" type="button" id="VnextBtn" value="Next" onclick="goNextVideo();" />
+                <br/>
+                <input class = "NavButtons" type="button" id="VnewBtn" value="New" onclick="newVideoDevice();" />
+                <input class = "NavButtons" type="button" id="VupdateBtn" value="Update" onclick="updateVideoDevice();" />
+            </nav> 
+        </div>
+
+        <!--Hard disk UI -->
+        <div id="HardDisk">
+            <h1>Hard Disk</h1>
+            <form action="">
+                <label><input type="checkbox" onclick="" id="HDdep">Deployed?</label>
+                <br/><br/>
+                <label>Replacement Cost $</label><input type="text" name="repCost" id="HDrepCost"/>
+                <br/><br/>
+                <label>Supplier Name</label><input type="text" name="supName" id="HDsupName"/>
+                <br/><br/>
+                <label>Serial Number</label><input type="text" name="serial" id="HDserial"/>
+                <br/><br/>
+                <label for="Disk Size">Disk Size</label>
+                <select class = "combobox" name="size" id="HDDisksize">
+                    <option value="4 TB">4 TB</option>
+                    <option value="2 TB">2 TB</option>
+                    <option value="1 TB">1 TB</option>
+                </select>
+                <br/>
+                <label for="Transfer Rate">Transfer Rate</label>
+                <select class = "combobox" name="transferRate" id="HDDiskRate">
+                    <option value="7GB / sec">7GB / sec</option>
+                    <option value="3GB / sec">3GB / sec</option>
+                    <option value="1GB / sec">1GB / sec</option>
+                </select>
+                <br/>
+                <label for="Platter size">Platter Size</label>
+                <select class = "combobox" name="HDPsize" id="HDPsize">
+                    <option value="2.5 inches">2.5 inches</option>
+                    <option value="2.75 inches">2.75 inches</option>
+                    <option value="3.0 inches">3.0 inches</option>
+                </select>
+                <br/>
+                <label for="# of platters"># of platters</label>
+                <select class = "combobox" name="number of platters" id="HDNumPlatters">
+                    <option value=25>25</option>
+                    <option value=30>30</option>
+                    <option value=35>35</option>
+                </select>
+            </form>
+            <nav>
+                <br/>
+                <input class = "NavButtons" type="button" id="HDprevBtn" value="Previous" onclick="goPreviousHD();" />
+                <input class = "NavButtons" type="button" id="HDnextBtn" value="Next" onclick="goNextHD();" />
+                <br/>
+                <input class = "NavButtons" type="button" id="HDnewBtn" value="New" onclick="newHDDevice();" />
+                <input class = "NavButtons" type="button" id="HDupdateBtn" value="Update" onclick="updateHDDevice();" />
+            </nav>
+        </div>
+
+        <!--SSD UI -->
+        <div id="SSD">
+            <h1>SSD</h1>
+            <form action="">
+                <label><input type="checkbox" onclick="" id="SSDdep">Deployed?</label>
+                <br/><br/>
+                <label>Replacement Cost $</label><input type="text" name="repCost" id="SSDrepCost"/>
+                <br/><br/>
+                <label>Supplier Name</label><input type="text" name="supName" id="SSDsupName"/>
+                <br/><br/>
+                <label>Serial Number</label><input type="text" name="serial" id="SSDserial"/>
+                <br/><br/>
+                <label for="Disk Size">Disk Size</label>
+                <select class = "combobox" name="size" id="SSDDisksize">
+                    <option value="1 TB">1 TB</option>
+                    <option value="750 GB">750 GB</option>
+                    <option value="500 GB">500 GB</option>
+                </select>
+                <br/>
+                <label for="Transfer Rate">Transfer Rate</label>
+                <select class = "combobox" name="transferRate" id="SSDDiskRate">
+                    <option value="250GB / sec">250GB / sec</option>
+                    <option value="100GB / sec">100GB / sec</option>
+                    <option value="50GB / sec">50GB / sec</option>
+                </select>
+                <br/>
+                <label for="Type">Type</label>
+                <select class = "combobox" name="SSD Type" id="SSDtype">
+                    <option value="Flash">Flash</option>
+                    <option value="DRAM">DRAM</option>
+                    <option value="3D XPoint">3D XPoint</option>
+                </select>
+                <br/><br/>
+                <label><input type="checkbox" onclick="" id="SSDWLev">Wear Leveling</label>
+            </form>
+            <nav>
+                <input class = "NavButtons" type="button" id="SSDprevBtn" value="Previous" onclick="goPreviousSSD();" />
+                <input class = "NavButtons" type="button" id="SSDnextBtn" value="Next" onclick="goNextSSD();" />
+                <br/>
+                <input class = "NavButtons" type="button" id="SSDnewBtn" value="New" onclick="newSSDDevice();" />
+                <input class = "NavButtons" type="button" id="SSDupdateBtn" value="Update" onclick="updateSSDDevice();" />
+            </nav>  
+        </div>
+
+    </body>
+
+</html>

@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href="main.css">
+        <title>MLB Info</title>
+    </head>
+
+    <script language="JavaScript" type="text/JavaScript">
+        var request = new XMLHttpRequest();
+        // coounts the game number when the user navigates through buttons previous and next
+        var gameIndex = 0;
+        // variable to hold the data parsed from Json
+        var jsObject;
+        
+        // Sends the request to the MLB website
+        function getJSONAsync(url) {
+            request.onload = function() {
+                if (request.status === 200) {
+                    jsObject = JSON.parse(request.responseText);
+                    gameIndex = 0; //resets the counter everytime a new request is sent
+                    
+                    //output the data of the first game on the chosen date
+                    outputData(gameIndex);
+                }
+            };
+            request.open("GET", url, true);
+            request.send();
+        }
+        
+        // event handler that will be executed when user clicks on the Request button
+        function getData() {
+				//saves the date from selected options to be used on the url
+                var year = document.getElementById("inputYear").value;
+				var month = document.getElementById("inputMonth").value;
+				var day = document.getElementById("inputDay").value;
+				var url = "http://gd2.mlb.com/components/game/mlb/year_" + year + "/month_" + month + "/day_" + day + "/master_scoreboard.json";
+				//calls the function to request the data from the website
+                getJSONAsync(url);
+			}
+
+        // executes when user clicks on next game button
+        function goToNextGame() {
+            //holds the lenght of the array game in order to know how many games
+            var len = jsObject.data.games.game.length;
+            if(gameIndex < len - 1){
+                gameIndex++;
+                outputData(gameIndex);
+            }
+        }
+
+        // executes when user clicks on next game button
+        function goToPreviousGame() {
+            if(gameIndex > 0){
+                gameIndex--;
+                outputData(gameIndex);
+            }
+                
+        }
+
+        //Output the data to the text boxes
+        function outputData(index){
+            document.getElementById("homeTeam").value = jsObject.data.games.game[index].home_team_name;
+            document.getElementById("awayTeam").value = jsObject.data.games.game[index].away_team_name;
+            document.getElementById("winPitcher").value = jsObject.data.games.game[index].winning_pitcher.first + " " + jsObject.data.games.game[index].winning_pitcher.last;
+            document.getElementById("losPitcher").value = jsObject.data.games.game[index].losing_pitcher.first + " " + jsObject.data.games.game[index].losing_pitcher.last;
+            document.getElementById("venue").value = jsObject.data.games.game[index].venue;
+        }
+    </script>
+
+    <body>
+        <header>
+            <h1>MLB Info</h1>
+        </header>
+        
+        <form action="#">
+            <fieldset>
+                <legend>Date:</legend>
+                <label for="year">Year</label> 
+                <select name="year" id="inputYear">
+                    <option value="2015">2015</option>
+                    <option value="2016">2016</option>
+                    <option value="2017">2017</option>
+                </select>
+                <br>
+                <label for="month">Month</label> 
+                <select name="year" id="inputMonth">
+                    <option value="01">01</option>
+                    <option value="02">02</option>
+                    <option value="03">03</option>
+                    <option value="04">04</option>
+                    <option value="05">05</option>
+                    <option value="06">06</option>
+                    <option value="07">07</option>
+                    <option value="08">08</option>
+                    <option value="09">09</option>
+                    <option value="10">10</option>
+                    <option value="11">11</option>
+                    <option value="12">12</option>
+                </select>
+                <br>
+                <label for="day">Day</label> 
+                <select name="day" id="inputDay">
+                    <option value="01">01</option>
+                    <option value="02">02</option>
+                    <option value="03">03</option>
+                    <option value="04">04</option>
+                    <option value="05">05</option>
+                    <option value="06">06</option>
+                    <option value="07">07</option>
+                    <option value="08">08</option>
+                    <option value="09">09</option>
+                    <option value="10">10</option>
+                    <option value="11">11</option>
+                    <option value="12">12</option>
+                    <option value="13">13</option>
+                    <option value="14">14</option>
+                    <option value="15">15</option>
+                    <option value="16">16</option>
+                    <option value="17">17</option>
+                    <option value="18">18</option>
+                    <option value="19">19</option>
+                    <option value="20">20</option>
+                    <option value="21">21</option>
+                    <option value="22">22</option>
+                    <option value="23">23</option>
+                    <option value="24">24</option>
+                    <option value="25">25</option>
+                    <option value="26">26</option>
+                    <option value="27">27</option>
+                    <option value="28">28</option>
+                    <option value="29">29</option>
+                    <option value="30">30</option>
+                    <option value="31">31</option>
+                </select>
+            </fieldset>
+            
+            <input type="button" id="retrieveData" value="Retrieve" onclick="getData();">
+
+            <div id="output">
+                <label for="homeTeam">Home Team Name</label>
+                <input type="text" id="homeTeam">
+                <br>
+                <label for="awayTeam">Away Team Name</label>
+                <input type="text" id="awayTeam">
+                <br>
+                <label for="winPitcher">Winning Pitcher</label>
+                <input type="text" id="winPitcher">
+                <br>
+                <label for="losPitcher">Losing Pitcher</label>
+                <input type="text" id="losPitcher">
+                <br>
+                <label for="venue">Venue</label>
+                <input type="text" id="venue">
+            </div>
+            <br>
+            <input type="button" class="NavButtons" id="btnPrevGame" value="Previous Game" onclick="goToPreviousGame();">
+            <input type="button" class="NavButtons" id="btnNextGame" value="Next Game" onclick="goToNextGame();">
+            <input type="button" class="NavButtons" id="btnSave" value="Save Changes">
+
+        </form>
+
+    </body>
+</html>

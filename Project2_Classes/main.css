@@ -1,0 +1,61 @@
+body{
+    font: 13px Arial, Helvetica, Sans-serif;
+    color: cadetblue;
+}
+h1{
+    font-size: 20px;
+    font-weight: bold;
+    font-style: italic;
+}
+form, nav{
+    width: 400px;
+    background-color: rgb(247, 247, 247);
+    border: 2px solid cadetblue;
+    padding: 20px 20px;
+    border-radius: 3px;
+}
+nav{
+    border-top: none;
+}
+label {
+    display: inline-block;
+    margin-right: 10%;
+    width: 30%;
+    padding: 5px auto;
+    margin-bottom: 10px;
+}
+
+#VideoDevice, #HardDisk, #SSD{
+    float: left;
+    margin-right: 10px;
+    width: 450px;
+}
+.combobox{
+    display: inline-block;
+    width: 150px;
+    padding: 5px 10px;
+    margin: 2px auto;
+    box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    border: 1px solid #C2C2C2;
+    box-shadow: 1px 1px 4px #EBEBEB;
+    border-radius: 3px;
+    -webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+}
+.NavButtons{
+    padding: 5px 5px;
+    width: 20%;
+    margin: 0 15% 10px 13%;
+    background: cadetblue;
+	color: #fff;
+    border-radius: 3px;
+    border: none;
+    -webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+}
+.NavButtons:hover{
+    background: rgb(77, 126, 128);
+	color: #fff;
+}
