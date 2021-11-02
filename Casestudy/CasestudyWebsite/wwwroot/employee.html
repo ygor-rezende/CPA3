@@ -8,7 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 </head>
 <body>
-    <div class="navbar navbar-expand-md navbar-dark bg-dark">
+    <div class="navbar navbar-expand-md navbar-dark bg-primary">
         <a class="navbar-brand mx-3" href="#">Case #1</a>
         <button class="navbar-toggler" mx-3 type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent">
             <span class="navbar-toggler-icon"></span>
@@ -24,16 +24,23 @@
             </ul>
         </div>
     </div>
+    <div class="card">
+        <div class="justify-content-center align-items-center row mt-5 ml-1">
+            <img src="img/what-is-help-desk-software.png" class="card-img w-25" />
+            <p class="text-md-center text-center fs-1 m-1 fw-bold">Help Desk</p>
+            <div class="list-group col-10" id="employeesList" style="height:45vh;"></div>
+        </div>
+    </div>
     <div class="modal fade" id="employeeModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h2 class="modal-title" id="staticBackdropLabel">Employee</h2>
+                    <h2 class="modal-title" id="modaltitle">Employee Info</h2>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <div class="card">
-                        <div class="card-header text-center">
+                        <div class="card-header text-center bg-secondary text-white">
                             Employee Information
                         </div>
                         <div class="card-body p-0 m-1">
@@ -63,21 +70,21 @@
                                     <input type="text" placeholder="Enter email address" id="TextBoxEmail" class="form-control" />
                                 </div>
                             </div>
+                            <div class="row">
+                                <div class="col-4">Department:</div>
+                                <div class="col-8">
+                                    <select id="ddlDepartments" name="ddlDepartments" class="form-control" />
+                                </div>
+                            </div>
                         </div>
                         <div class="card-footer text-center">
-                            <input type="button" value="Update" id="actionbutton" />
+                            <input type="button" class="btn btn-primary mt-3" value="Update" id="actionbutton" />
+                            <input type="button" class="btn btn-danger mt-3" value="Delete" id="deletebutton" />
                             <div id="modalStatus" class="text-left mt-3 mb-2"></div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
-    <div class="card">
-        <div class="justify-content-center align-items-center row mt-5 ml-1">
-            <img src="img/what-is-help-desk-software.png" class="card-img w-25" />
-            <p class="text-md-center fs-1 m-1 fw-bold">Help Desk</p>
-            <div class="list-group col-10" id="employeesList" style="height:45vh;"></div>
         </div>
     </div>
     <script src="lib/js/bootstrap.min.js"></script>

@@ -40,7 +40,7 @@ namespace CasestudyWebsite.Controllers
                 int retVal = await viewModel.Update();
                 return retVal switch
                 {
-                    1 => Ok(new { msg = "Employee " + viewModel.Lastname + " udated!" }),
+                    1 => Ok(new { msg = "Employee " + viewModel.Lastname + " updated!" }),
                     -1 => Ok(new { msg = "Employee " + viewModel.Lastname + "not updated!" }),
                     -2 => Ok(new { msg = "Data is stale for " + viewModel.Lastname + ". Employee not updated!" }),
                     _ => Ok(new { msg = "Employee " + viewModel.Lastname + "not updated!" }),
@@ -86,6 +86,22 @@ namespace CasestudyWebsite.Controllers
             }
         }
 
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete(int id)
+        {
+            try
+            {
+                EmployeeViewModel viewModel = new EmployeeViewModel { Id = id };
+                return await viewModel.Delete() == 1
+                    ? Ok(new { msg = "Employee " + id + " deleted!" })
+                    : Ok(new { msg = "Employee " + id + " not deleted!" });
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine("Problem in " + GetType().Name + " " + MethodBase.GetCurrentMethod().Name + " " + ex.Message);
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
+        }
 
     }//controller base
 }
